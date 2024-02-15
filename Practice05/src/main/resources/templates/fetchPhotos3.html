@@ -1,0 +1,422 @@
+<!--&lt;!&ndash;&lt;!&ndash; Create a new Thymeleaf template (fetchPhotosForm.html) &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Fetch Photos Form</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">&ndash;&gt;-->
+
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="card-header">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h1>All Photos</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;        <form action="/fetchPhotos" method="get">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label class="form-label" for="eid">Employee ID:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-control" type="text" id="eid" name="eid" required><br>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label class="form-label" for="ename">Employee Name:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-control" type="text" id="ename" name="ename" required><br>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label class="form-label" for="fromDate">From Date:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-control" type="date" id="fromDate" name="fromDate" required><br>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label class="form-label" for="toDate">To Date:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-control" type="date" id="toDate" name="toDate" th:value="${{#dates.format(#dates.createNow(), 'yyyy-MM-dd')}}" readonly><br>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-check-inline" type="checkbox" id="showHistory" name="showHistory">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label class="form-check-label" for="showHistory">Show History</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button disabled class="btn btn-primary mt-3" id="submit_button" type="submit">Submit</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<script >&ndash;&gt;-->
+<!--&lt;!&ndash;    let submitbtn = document.getElementById("submit_button");&ndash;&gt;-->
+<!--&lt;!&ndash;    let showHistory = document.getElementById("showHistory");&ndash;&gt;-->
+
+<!--&lt;!&ndash;    showHistory.onchange = ()=>{&ndash;&gt;-->
+<!--&lt;!&ndash;        submitbtn.disabled = !showHistory.checked;&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+<!--&lt;!&ndash; Include jQuery library &ndash;&gt;-->
+<!--&lt;!&ndash;<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; JavaScript code for AJAX form submission &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<script>&ndash;&gt;-->
+<!--&lt;!&ndash;    $(document).ready(function () {&ndash;&gt;-->
+<!--&lt;!&ndash;        // Handle form submission&ndash;&gt;-->
+<!--&lt;!&ndash;        $('form').submit(function (event) {&ndash;&gt;-->
+<!--&lt;!&ndash;            // Prevent default form submission&ndash;&gt;-->
+<!--&lt;!&ndash;            event.preventDefault();&ndash;&gt;-->
+
+<!--&lt;!&ndash;            // Serialize form data&ndash;&gt;-->
+<!--&lt;!&ndash;            var formData = $(this).serialize();&ndash;&gt;-->
+
+<!--&lt;!&ndash;            // Make AJAX request&ndash;&gt;-->
+<!--&lt;!&ndash;            $.ajax({&ndash;&gt;-->
+<!--&lt;!&ndash;                type: 'GET',&ndash;&gt;-->
+<!--&lt;!&ndash;                url: '/fetchPhotos',&ndash;&gt;-->
+<!--&lt;!&ndash;                data: formData,&ndash;&gt;-->
+<!--&lt;!&ndash;                success: function (response) {&ndash;&gt;-->
+<!--&lt;!&ndash;                    // Update the DOM with the fetched data&ndash;&gt;-->
+<!--&lt;!&ndash;                    $('#photoList').html(response);&ndash;&gt;-->
+<!--&lt;!&ndash;                },&ndash;&gt;-->
+<!--&lt;!&ndash;                error: function () {&ndash;&gt;-->
+<!--&lt;!&ndash;                    // Handle errors&ndash;&gt;-->
+<!--&lt;!&ndash;                    alert('Error fetching data.');&ndash;&gt;-->
+<!--&lt;!&ndash;                }&ndash;&gt;-->
+<!--&lt;!&ndash;            });&ndash;&gt;-->
+<!--&lt;!&ndash;        });&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; Display fetched photos &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="photoList">&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; Fetched photos will be displayed here &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Fetch Photos Form</title>-->
+<!--    <style>-->
+<!--        .center {-->
+<!--            margin: auto;-->
+<!--            width: 50%;-->
+<!--            border: 3px solid green;-->
+<!--            padding: 10px;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--    </style>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <div class="card-header">-->
+<!--            <h1>All Photos</h1>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <form id="fetchPhotosForm">-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="eid">Employee ID:</label>-->
+<!--                    <input class="form-control" type="text" id="eid" name="eid" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="ename">Employee Name:</label>-->
+<!--                    <input class="form-control" type="text" id="ename" name="ename" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="fromDate">From Date:</label>-->
+<!--                    <input class="form-control" type="date" id="fromDate" name="fromDate" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="toDate">To Date:</label>-->
+<!--                    <input class="form-control" type="date" id="toDate" name="toDate" th:value="${{#dates.format(#dates.createNow(), 'yyyy-MM-dd')}}" readonly><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <input class="form-check-inline" type="checkbox" id="showHistory" name="showHistory">-->
+<!--                    <label class="form-check-label" for="showHistory">Show History</label>-->
+<!--                </div>-->
+<!--                <button class="btn btn-primary mt-3" type="submit">Submit</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Display fetched photos &ndash;&gt;-->
+<!--<div id="photoList" class="center">-->
+<!--    &lt;!&ndash; Fetched photos will be displayed here &ndash;&gt;-->
+<!--</div>-->
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--&lt;!&ndash;<script>&ndash;&gt;-->
+<!--&lt;!&ndash;    $(document).ready(function () {&ndash;&gt;-->
+<!--&lt;!&ndash;        // Handle form submission&ndash;&gt;-->
+<!--&lt;!&ndash;        $('#fetchPhotosForm').submit(function (event) {&ndash;&gt;-->
+<!--&lt;!&ndash;            // Prevent default form submission&ndash;&gt;-->
+<!--&lt;!&ndash;            event.preventDefault();&ndash;&gt;-->
+<!--&lt;!&ndash;            // Serialize form data&ndash;&gt;-->
+<!--&lt;!&ndash;            var formData = $(this).serialize();&ndash;&gt;-->
+<!--&lt;!&ndash;            // Make AJAX request&ndash;&gt;-->
+<!--&lt;!&ndash;            $.ajax({&ndash;&gt;-->
+<!--&lt;!&ndash;                type: 'GET',&ndash;&gt;-->
+<!--&lt;!&ndash;                url: '/fetchPhotos',&ndash;&gt;-->
+<!--&lt;!&ndash;                data: formData,&ndash;&gt;-->
+<!--&lt;!&ndash;                success: function (response) {&ndash;&gt;-->
+<!--&lt;!&ndash;                    // Update the DOM with the fetched data&ndash;&gt;-->
+<!--&lt;!&ndash;                    $('#photoList').html(response);&ndash;&gt;-->
+<!--&lt;!&ndash;                },&ndash;&gt;-->
+<!--&lt;!&ndash;                error: function () {&ndash;&gt;-->
+<!--&lt;!&ndash;                    // Handle errors&ndash;&gt;-->
+<!--&lt;!&ndash;                    alert('Error fetching data.');&ndash;&gt;-->
+<!--&lt;!&ndash;                }&ndash;&gt;-->
+<!--&lt;!&ndash;            });&ndash;&gt;-->
+<!--&lt;!&ndash;        });&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        // Handle form submission-->
+<!--        $('#fetchPhotosForm').submit(function (event) {-->
+<!--            // Prevent default form submission-->
+<!--            event.preventDefault();-->
+<!--            // Check if "Show History" checkbox is checked-->
+<!--            var showHistoryChecked = $('#showHistory').prop('checked');-->
+<!--            if (!showHistoryChecked) {-->
+<!--                alert('Please check the "Show History" checkbox to fetch data.');-->
+<!--                return;-->
+<!--            }-->
+<!--            // Serialize form data-->
+<!--            var formData = $(this).serialize();-->
+<!--            // Make AJAX request-->
+<!--            $.ajax({-->
+<!--                type: 'GET',-->
+<!--                url: '/fetchPhotos',-->
+<!--                data: formData,-->
+<!--                success: function (response) {-->
+<!--                    // Update the DOM with the fetched data-->
+<!--                    $('#photoList').html(response);-->
+<!--                },-->
+<!--                error: function () {-->
+<!--                    // Handle errors-->
+<!--                    alert('Error fetching data.');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Fetch Photos</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <div class="card-header">-->
+<!--            <h1>Fetch Photos</h1>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <form action="/fetchPhotos" method="get">-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="eid">Employee ID:</label>-->
+<!--                    <input class="form-control" type="text" id="eid" name="eid" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="ename">Employee Name:</label>-->
+<!--                    <input class="form-control" type="text" id="ename" name="ename" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="fromDate">From Date:</label>-->
+<!--                    <input class="form-control" type="date" id="fromDate" name="fromDate" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label" for="toDate">To Date:</label>-->
+<!--                    <input class="form-control" type="date" id="toDate" name="toDate" required><br>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <input class="form-check-inline" type="checkbox" id="showHistory" name="showHistory">-->
+<!--                    <label class="form-check-label" for="showHistory">Show History</label>-->
+<!--                </div>-->
+<!--                <button class="btn btn-primary mt-3" type="submit">Submit</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fetch Photos</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="container">
+        <div class="card" id="upperForm">
+            <div class="card-header">
+                <h1>Fetch Photos</h1>
+            </div>
+            <div class="card-body">
+                <form action="/fetchPhotos" method="get" id="fetchForm">
+                    <div class="form-group">
+                        <label class="form-label" for="eid">Employee ID:</label>
+                        <input class="form-control" type="text" id="eid" name="eid" required><br>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ename">Employee Name:</label>
+                        <input class="form-control" type="text" id="ename" name="ename" required><br>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="fromDate">From Date:</label>
+                        <input class="form-control" type="date" id="fromDate" name="fromDate" required><br>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="toDate">To Date:</label>
+                        <input class="form-control" type="date" id="toDate" name="toDate" value="<%= new java.util.Date().toISOString().split('T')[0] %>" required readonly><br>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-check-inline" type="checkbox" id="showHistory" name="showHistory">
+                        <label class="form-check-label" for="showHistory">Show History</label>
+                    </div>
+                    <button class="btn btn-primary mt-3" type="submit" id="submit-button">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+
+<!--        &lt;!&ndash; Display fetched photos below the form &ndash;&gt;-->
+<!--        <div class="card mt-3" ID="photoList">-->
+<!--            <div class="card-header">-->
+<!--                <h2>Photo List</h2>-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <table class="table">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Photo ID</th>-->
+<!--                        <th>Employee ID</th>-->
+<!--                        <th>Employee Name</th>-->
+<!--                        <th>Date</th>-->
+<!--                        <th>Timeline</th>-->
+<!--                        <th>Show Photo</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    &lt;!&ndash; Loop through the fetched photos and display each photo in a table row &ndash;&gt;-->
+<!--                    <tr th:each="photo : ${photos}">-->
+<!--                        <td th:text="${photo.pid}"></td>-->
+<!--                        <td th:text="${photo.employee.eid}"></td>-->
+<!--                        <td th:text="${photo.employee.ename}"></td>-->
+<!--                        <td th:text="${photo.date}"></td>-->
+<!--                        <td th:text="${photo.timeSinceAdded}"></td>-->
+<!--                        &lt;!&ndash; Add a button to show the photo &ndash;&gt;-->
+<!--                        <td>-->
+<!--                            <form action="/showPhoto" method="get">-->
+<!--                                <input type="hidden" name="photoId" th:value="${photo.pid}">-->
+<!--                                <button class="btn btn-primary">Show Photo</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    <script>
+        // Set the default value of "To Date" input field to the current date
+        document.getElementById("toDate").valueAsDate = new Date();
+        document.getElementById("fetchForm").addEventListener("submit", function(event) {
+            // Check if the "Show History" checkbox is not checked
+            if (!document.getElementById("showHistory").checked) {
+                // Prevent form submission
+                // event.preventDefault();
+                // Show message asking user to check the checkbox
+                alert("Please check the 'Show History' checkbox.");
+            }
+        });
+    </script>
+
+    </body>
+</html>
+
+
+<!--    <script>-->
+<!--        // Set the default value of "To Date" input field to the current date-->
+<!--        document.getElementById("toDate").valueAsDate = new Date();-->
+
+<!--        // Hide the photo list section initially-->
+<!--        document.getElementById("photoList").classList.add("d-none");-->
+
+<!--        // Check if the upper form is submitted-->
+<!--        document.getElementById("upperForm").addEventListener("submit", function(event) {-->
+<!--            // Prevent the default form submission-->
+<!--            event.preventDefault();-->
+
+<!--            // Show the photo list section-->
+<!--            document.getElementById("photoList").classList.remove("d-none");-->
+
+<!--            // Submit the form-->
+<!--            this.submit();-->
+<!--        });-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        // Set the default value of "To Date" input field to the current date-->
+<!--        document.getElementById("toDate").valueAsDate = new Date();-->
+
+<!--        // Hide the photo list section initially-->
+<!--        document.getElementById("photoList").classList.add("d-none");-->
+
+<!--        // Check if the upper form is submitted-->
+<!--        document.getElementById("upperForm").addEventListener("submit", function(event) {-->
+<!--            // Prevent the default form submission-->
+<!--            event.preventDefault();-->
+
+<!--            // Check if the checkbox is checked-->
+<!--            var showHistoryCheckbox = document.getElementById("showHistory");-->
+<!--            if (showHistoryCheckbox.checked) {-->
+<!--                // Show the photo list section if the checkbox is checked-->
+<!--                document.getElementById("photoList").classList.remove("d-none");-->
+<!--            } else {-->
+<!--                // Otherwise, keep the photo list section hidden-->
+<!--                document.getElementById("photoList").classList.add("d-none");-->
+<!--            }-->
+
+<!--            // Submit the form-->
+<!--            this.submit();-->
+<!--        });-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        // Set the default value of "To Date" input field to the current date-->
+<!--        document.getElementById("toDate").valueAsDate = new Date();-->
+
+<!--        // Hide the photo list section initially-->
+<!--        document.getElementById("photoList").classList.add("d-none");-->
+
+<!--        // Check if the upper form is submitted-->
+<!--        document.getElementById("fetchForm").addEventListener("submit", function(event) {-->
+<!--            // Check if the checkbox is checked-->
+<!--            var showHistoryCheckbox = document.getElementById("showHistory");-->
+<!--            if (!showHistoryCheckbox.checked) {-->
+<!--                // Prevent the default form submission if the checkbox is not checked-->
+<!--                event.preventDefault();-->
+<!--                // Hide the photo list section-->
+<!--                document.getElementById("photoList").classList.add("d-none");-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo List</title>
+</head>
+<body>
+
+<h2>Photo List</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Photo ID</th>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Date</th>
+<!--        <th>Photou </th>-->
+        <th>Timeline</th>
+        <th>Show Photo</th>
+        <th>Show Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="photo : ${photos}">
+        <td th:text="${photo.pid}"></td>
+        <td th:text="${photo.employee.eid}"></td>
+        <td th:text="${photo.employee.ename}"></td>
+        <td th:text="${photo.date}"></td>
+<!--        <td th:text="${photo.photo}"></td>-->
+        <td th:text="${photo.timeSinceAdded}"></td>
+
+        <td>
+            <a th:href="@{/showPhoto(photoId=${photo.pid})}" th:if="${showHistory}">Show Photo</a>
+        </td>
+        <td>
+            <form method="get" action="/showPhoto">
+                <input type="hidden" name="photoId" th:value="${photo.pid}">
+                <input type="submit" value="Show Photo">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>
